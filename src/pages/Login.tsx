@@ -6,6 +6,7 @@ import { AccessToken } from '../store/reducers'
 import { ThunkDispatch } from 'redux-thunk'
 
 interface State {
+  student_name: string
 }
 
 interface OwnProps {
@@ -29,10 +30,8 @@ class Login extends React.Component<Props, State> {
       student_name: ''
     }
   }
-
   
   handleInputSearchKey = (e: React.FormEvent<HTMLInputElement>) => {
-    console.log('sdfsfs')
     this.setState({ student_name: e.currentTarget.value })
   };
 
@@ -56,7 +55,7 @@ class Login extends React.Component<Props, State> {
                 <p>Student Name:</p>
                 <input type="text" onChange={this.handleInputSearchKey} />
               </div>
-              <button className="btn btn-primary" onClick={()=>{console.log(this.state.student_name)}}>
+              <button className="btn btn-primary" onClick={()=>{this.props.login(this.state.student_name)}}>
                 Login
               </button>
             </div>
@@ -77,7 +76,6 @@ const mapStateToProps = (states: RootState, ownProps: OwnProps): StateProps => {
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => {
   return {
     login: async (student_name) => {
-      console.log(student_name)
       await dispatch(login(student_name))
       console.log('Completed [UI]')
     }
