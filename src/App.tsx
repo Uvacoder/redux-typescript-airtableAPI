@@ -7,7 +7,6 @@ import store from './store'
 import Login from './pages/Login'
 
 // Assets & Style
-import logo from './logo.svg'
 import './App.css'
 
 class App extends Component {

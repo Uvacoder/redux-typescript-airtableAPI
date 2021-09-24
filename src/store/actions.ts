@@ -3,8 +3,8 @@ import { AnyAction } from 'redux'
 import { getClassesList } from '../API'
 
 // Action Definition
-export interface SetAction {
-  type: 'SET'
+export interface GetClassesAction {
+  type: 'GET_CLASSES'
   accessToken: string
 }
 export interface SetFetcing {
@@ -13,11 +13,11 @@ export interface SetFetcing {
 }
 
 // Union Action Types
-export type Action = SetAction | SetFetcing
+export type Action = GetClassesAction | SetFetcing
 
 // Action Creators
-export const set = (accessToken: string): SetAction => {
-  return { type: 'SET', accessToken }
+export const set = (accessToken: string): GetClassesAction => {
+  return { type: 'GET_CLASSES', accessToken }
 }
 export const isFetching = (isFetching: boolean): SetFetcing => {
   return { type: 'SET_FETCHING', isFetching }
@@ -29,33 +29,18 @@ export const login = (student_name: string): ThunkAction<Promise<void>, {}, {}, 
   return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
     return new Promise<void>((resolve) => {
 
+      dispatch(isFetching(true))
+      
       getClassesList(student_name).then((res) => {
-        dispatch(isFetching(true))
-        console.log('get Data', res)
         
+        dispatch(set('this_is_access_token'))
+        
+        dispatch(isFetching(false))
+        
+        console.log('get Data', res)
+
         resolve()
       })
     })
-    // return new Promise<void>((resolve) => {
-
-    //   dispatch(isFetching(true))
-    //   console.log('Login in progress')
-      
-    //   // Fake async process
-    //   setTimeout(() => {
-    //     // set
-    //     dispatch(set('this_is_access_token'))
-
-    //     setTimeout(() => {
-          
-    //       dispatch(isFetching(false))
-    //       console.log('Login done')
-          
-    //       resolve()
-    //     }, 1000)
-        
-    //   }, 3000)
-    // })
-
   }
 }

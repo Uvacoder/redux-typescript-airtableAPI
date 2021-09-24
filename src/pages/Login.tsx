@@ -2,7 +2,7 @@ import * as React from 'react'
 import { RootState } from '../store'
 import { connect } from 'react-redux'
 import { login } from '../store/actions'
-import { AccessToken } from '../store/reducers'
+import { IClasses } from '../store/reducers'
 import { ThunkDispatch } from 'redux-thunk'
 
 interface State {
@@ -17,7 +17,7 @@ interface DispatchProps {
 }
 
 interface StateProps {
-  accessToken: AccessToken
+  accessToken: IClasses
 }
 
 type Props = StateProps & OwnProps & DispatchProps
@@ -41,16 +41,17 @@ class Login extends React.Component<Props, State> {
         <div className="row justify-content-center mb-3">
           <div className="col-6">
           {
-            this.props.accessToken.isFetching && 
+            this.props.accessToken.accessToken && 
             <div>
-              <button className="btn btn-primary logout">
+              {this.props.accessToken.accessToken}
+              <button className="btn btn-primary logout" onClick={()=>{this.props.login(this.state.student_name)}}>
                 LogOut
               </button>
             </div>
             ||
-            // this.props.accessToken.isFetching && 'Faking Login in' 
-            // ||
-            <div>
+            this.props.accessToken.isFetching && 'Loading...' 
+            ||
+            <form onSubmit={() => this.props.login(this.state.student_name)}>
               <div className="Login">
                 <p>Student Name:</p>
                 <input type="text" onChange={this.handleInputSearchKey} />
@@ -58,7 +59,7 @@ class Login extends React.Component<Props, State> {
               <button className="btn btn-primary" onClick={()=>{this.props.login(this.state.student_name)}}>
                 Login
               </button>
-            </div>
+            </form>
           }
           </div>
         </div>
@@ -66,13 +67,18 @@ class Login extends React.Component<Props, State> {
     )
   }
 }
-
+//This method will be invoked automatically so that it will update the properties that will be passed down to Component.
+//This method has 2 arguments first is the root states and second is the Component’s own props 
+//(you may use them in order to compute/transform the states.
 const mapStateToProps = (states: RootState, ownProps: OwnProps): StateProps => {
   return {
+    //'accessToken:' is meaning props
+    //'states' is State
     accessToken: states.session.accessToken
   }
 }
 
+//With the same fashion this method is to map the actions and provide it back as a properties of the component.
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => {
   return {
     login: async (student_name) => {
