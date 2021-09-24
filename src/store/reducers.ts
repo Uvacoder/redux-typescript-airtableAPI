@@ -3,20 +3,24 @@ import { combineReducers } from 'redux'
 import { Action } from './actions'
 
 // States' definition
+export interface IClass {
+  name: string;
+  students: string[];
+};
+
 export interface IClasses {
-  isFetching: boolean
-  accessToken?: string
-}
-
+  isFetching: boolean;
+  classList?: IClass[];
+};
 export interface State {
-  accessToken: IClasses
+  classes: IClasses
 }
 
-const accessToken = (state: IClasses = { isFetching: false }, action: Action): IClasses => {
+const reducer = (state: IClasses = { isFetching: false }, action: Action): IClasses => {
 
   switch (action.type) {
     case 'GET_CLASSES':
-      return { ...state, accessToken: action.accessToken }
+      return { ...state, classList: action.classListData }
 
     case 'SET_FETCHING':
       return { ...state, isFetching: action.isFetching }
@@ -24,5 +28,5 @@ const accessToken = (state: IClasses = { isFetching: false }, action: Action): I
   return state
 }
 export default combineReducers<State>({
-  accessToken
+  classes: reducer
 })

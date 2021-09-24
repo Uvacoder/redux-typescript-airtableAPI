@@ -2,6 +2,7 @@ import * as React from 'react'
 import { RootState } from '../store'
 import { connect } from 'react-redux'
 import { login } from '../store/actions'
+import { logout } from '../store/actions'
 import { IClasses } from '../store/reducers'
 import { ThunkDispatch } from 'redux-thunk'
 
@@ -14,6 +15,7 @@ interface OwnProps {
 
 interface DispatchProps {
   login: (student_name: string) => void,
+  logout: () => void
 }
 
 interface StateProps {
@@ -41,10 +43,19 @@ class Login extends React.Component<Props, State> {
         <div className="row justify-content-center mb-3">
           <div className="col-6">
           {
-            this.props.accessToken.accessToken && 
+            this.props.accessToken.classList && 
             <div>
-              {this.props.accessToken.accessToken}
-              <button className="btn btn-primary logout" onClick={()=>{this.props.login(this.state.student_name)}}>
+              {
+                this.props.accessToken.classList.map((_class, idx) => (
+                  <div key={idx}>
+                    Name:
+                    <p>{_class.name}</p>
+                    Students:
+                    {_class.students.map((student, i) => (<span key={i}>{student}</span>))}
+                  </div>
+                ))
+              }
+              <button className="btn btn-primary logout" onClick={()=>{this.props.logout()}}>
                 LogOut
               </button>
             </div>
@@ -74,7 +85,7 @@ const mapStateToProps = (states: RootState, ownProps: OwnProps): StateProps => {
   return {
     //'accessToken:' is meaning props
     //'states' is State
-    accessToken: states.session.accessToken
+    accessToken: states.session.classes
   }
 }
 
@@ -84,6 +95,9 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnP
     login: async (student_name) => {
       await dispatch(login(student_name))
       console.log('Completed [UI]')
+    },
+    logout: () => {
+      dispatch(logout())
     }
   }
 }

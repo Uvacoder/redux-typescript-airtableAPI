@@ -1,25 +1,26 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
 import { getClassesList } from '../API'
+import { IClass } from '../store/reducers'
 
 // Action Definition
 export interface GetClassesAction {
   type: 'GET_CLASSES'
-  accessToken: string
+  classListData: IClass[]
 }
-export interface SetFetcing {
+export interface SetFetching {
   type: 'SET_FETCHING'
   isFetching: boolean
 }
 
 // Union Action Types
-export type Action = GetClassesAction | SetFetcing
+export type Action = GetClassesAction | SetFetching
 
 // Action Creators
-export const set = (accessToken: string): GetClassesAction => {
-  return { type: 'GET_CLASSES', accessToken }
+export const getClassesData = (classListData: IClass[] | any): GetClassesAction => {
+  return { type: 'GET_CLASSES', classListData: classListData }
 }
-export const isFetching = (isFetching: boolean): SetFetcing => {
+export const isFetching = (isFetching: boolean): SetFetching => {
   return { type: 'SET_FETCHING', isFetching }
 }
 
@@ -32,15 +33,17 @@ export const login = (student_name: string): ThunkAction<Promise<void>, {}, {}, 
       dispatch(isFetching(true))
       
       getClassesList(student_name).then((res) => {
-        
-        dispatch(set('this_is_access_token'))
-        
+        dispatch(getClassesData(res))
         dispatch(isFetching(false))
-        
-        console.log('get Data', res)
-
         resolve()
       })
     })
+  }
+}
+
+export const logout = (): ThunkAction<void, {}, {}, AnyAction> => {
+  // Invoke API
+  return (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
+    dispatch(getClassesData(null))
   }
 }

@@ -10,9 +10,19 @@ async function get_data(searchKey : string) {
       filterByFormula: "{Name} = '" + searchKey + "'", //"NOT({Name} = '')",
     }).eachPage(
       function page(records, fetchNextPage) {
-          let students = records.map(function(record) {
-              return {students : record.get('Name')}
-          });
+          // let students = records.map(function(record) {
+          //     return {students : record.get('Name')}
+          // });
+          let students = [
+            {
+              name: 'classs',
+              students: ['Joe', 'Jack', 'Brown']
+            },
+            {
+              name: 'classs1',
+              students: ['Joe1', 'Jack1', 'Brown1']
+            }
+          ]
           resolve(students);
       }, 
       function done(err) {
