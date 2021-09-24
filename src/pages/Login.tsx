@@ -26,54 +26,50 @@ type Props = StateProps & OwnProps & DispatchProps
 
 class Login extends React.Component<Props, State> {
 
-  constructor(prop:Props) {
+  constructor(prop: Props) {
     super(prop)
     this.state = {
       student_name: ''
     }
   }
-  
+
   handleInputSearchKey = (e: React.FormEvent<HTMLInputElement>) => {
     this.setState({ student_name: e.currentTarget.value })
   };
 
   render() {
     return (
-      <div className="container">
-        <div className="row justify-content-center mb-3">
-          <div className="col-6">
-          {
-            this.props.accessToken.classList && 
-            <div>
-              {
-                this.props.accessToken.classList.map((_class, idx) => (
-                  <div key={idx}>
-                    Name:
-                    <p>{_class.name}</p>
-                    Students:
-                    {_class.students.map((student, i) => (<span key={i}>{student}</span>))}
-                  </div>
-                ))
-              }
-              <button className="btn btn-primary logout" onClick={()=>{this.props.logout()}}>
-                LogOut
-              </button>
+      <div className="row">
+        {
+          this.props.accessToken.classList &&
+          <>
+            {
+              this.props.accessToken.classList.map((_class, idx) => (
+                <div key={idx} className="card">
+                  <span className="bold">Name:</span>
+                  <p>{_class.name}</p>
+                  <p className="bold">Students:</p>
+                  {_class.students.join(', ')}
+                </div>
+              ))
+            }
+            <button className="btn btn-primary logout" onClick={() => { this.props.logout() }}>
+              LogOut
+            </button>
+          </>
+          ||
+          this.props.accessToken.isFetching && 'Loading...'
+          ||
+          <form onSubmit={() => this.props.login(this.state.student_name)}>
+            <div className="Login">
+              <p>Student Name:</p>
+              <input type="text" onChange={this.handleInputSearchKey} />
             </div>
-            ||
-            this.props.accessToken.isFetching && 'Loading...' 
-            ||
-            <form onSubmit={() => this.props.login(this.state.student_name)}>
-              <div className="Login">
-                <p>Student Name:</p>
-                <input type="text" onChange={this.handleInputSearchKey} />
-              </div>
-              <button className="btn btn-primary" onClick={()=>{this.props.login(this.state.student_name)}}>
-                Login
-              </button>
-            </form>
-          }
-          </div>
-        </div>
+            <button className="btn btn-primary" onClick={() => { this.props.login(this.state.student_name) }}>
+              Login
+            </button>
+          </form>
+        }
       </div>
     )
   }

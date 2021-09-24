@@ -30,3 +30,16 @@ button.logout {
   font-size: calc(8px + 2vmin);
   color: white;
 }
+
+.card {
+  border-color: white;
+  border-width: 1px;
+  border-style: solid;
+  text-align: left;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.bold {
+  font-weight: bold;
+}
