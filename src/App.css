@@ -36,10 +36,22 @@ button.logout {
   border-width: 1px;
   border-style: solid;
   text-align: left;
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin-bottom: 20px;
+  min-width: 400px;
 }
 
-.bold {
+.title {
   font-weight: bold;
+  font-size: 16px;
+}
+
+.content {
+  font-size: 16px;
+}
+
+.content-top {
+  font-size: 16px;
+  padding-bottom: 5px;
 }

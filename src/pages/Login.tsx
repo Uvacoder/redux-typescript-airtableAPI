@@ -46,10 +46,10 @@ class Login extends React.Component<Props, State> {
             {
               this.props.accessToken.classList.map((_class, idx) => (
                 <div key={idx} className="card">
-                  <span className="bold">Name</span>
-                  <p>{_class.name}</p>
-                  <p className="bold">Students</p>
-                  {_class.students.join(', ')}
+                  <p className="title">Name</p>
+                  <p className="content-top">{_class.name}</p>
+                  <p className="title">Students</p>
+                  <p className="content">{_class.students.join(', ')}</p>
                 </div>
               ))
             }
