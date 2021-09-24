@@ -42,7 +42,6 @@ export const login = (student_name: string): ThunkAction<Promise<void>, {}, {}, 
 }
 
 export const logout = (): ThunkAction<void, {}, {}, AnyAction> => {
-  // Invoke API
   return (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
     dispatch(getClassesData(null))
   }

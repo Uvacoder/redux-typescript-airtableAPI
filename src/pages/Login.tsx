@@ -37,6 +37,12 @@ class Login extends React.Component<Props, State> {
     this.setState({ student_name: e.currentTarget.value })
   };
 
+  handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    this.props.login(this.state.student_name);
+    this.setState({ student_name: '' })
+  };
+
   render() {
     return (
       <div className="row">
@@ -60,12 +66,12 @@ class Login extends React.Component<Props, State> {
           ||
           this.props.accessToken.isFetching && 'Loading...'
           ||
-          <form onSubmit={() => this.props.login(this.state.student_name)}>
+          <form onSubmit={this.handleSubmit}>
             <div className="Login">
               <p>Student Name:</p>
-              <input type="text" onChange={this.handleInputSearchKey} />
+              <input type="text" required={true} onChange={this.handleInputSearchKey} />
             </div>
-            <button className="btn btn-primary" onClick={() => { this.props.login(this.state.student_name) }}>
+            <button className="btn btn-primary" type="submit">
               Login
             </button>
           </form>
@@ -93,6 +99,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnP
       console.log('Completed [UI]')
     },
     logout: () => {
+
       dispatch(logout())
     }
   }
