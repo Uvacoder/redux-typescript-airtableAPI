@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { RootState } from '../store'
 import { connect } from 'react-redux'
-import { login } from '../store/session/actions'
-import { AccessToken } from '../store/session/reducers'
+import { login } from '../store/actions'
+import { AccessToken } from '../store/reducers'
 import { ThunkDispatch } from 'redux-thunk'
 
 interface State {
@@ -12,7 +12,7 @@ interface OwnProps {
 }
 
 interface DispatchProps {
-  login: (username: string, password: string) => void
+  login: (student_name: string) => void,
 }
 
 interface StateProps {
@@ -26,8 +26,15 @@ class Login extends React.Component<Props, State> {
   constructor(prop:Props) {
     super(prop)
     this.state = {
+      student_name: ''
     }
   }
+
+  
+  handleInputSearchKey = (e: React.FormEvent<HTMLInputElement>) => {
+    console.log('sdfsfs')
+    this.setState({ student_name: e.currentTarget.value })
+  };
 
   render() {
     return (
@@ -35,13 +42,24 @@ class Login extends React.Component<Props, State> {
         <div className="row justify-content-center mb-3">
           <div className="col-6">
           {
-            this.props.accessToken.accessToken && 'You are logged In!'
+            this.props.accessToken.isFetching && 
+            <div>
+              <button className="btn btn-primary logout">
+                LogOut
+              </button>
+            </div>
             ||
-            this.props.accessToken.isFetching && 'Faking Login in' 
-            ||
-            <button className="btn btn-primary" onClick={() => this.props.login('someusername', 'somepassword')}>
-              Login
-            </button>
+            // this.props.accessToken.isFetching && 'Faking Login in' 
+            // ||
+            <div>
+              <div className="Login">
+                <p>Student Name:</p>
+                <input type="text" onChange={this.handleInputSearchKey} />
+              </div>
+              <button className="btn btn-primary" onClick={()=>{console.log(this.state.student_name)}}>
+                Login
+              </button>
+            </div>
           }
           </div>
         </div>
@@ -58,9 +76,10 @@ const mapStateToProps = (states: RootState, ownProps: OwnProps): StateProps => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => {
   return {
-    login: async (username, password) => {
-      await dispatch(login(username, password))
-      console.log('Login completed [UI]')
+    login: async (student_name) => {
+      console.log(student_name)
+      await dispatch(login(student_name))
+      console.log('Completed [UI]')
     }
   }
 }

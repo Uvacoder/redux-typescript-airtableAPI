@@ -1,12 +1,24 @@
 .App {
   text-align: center;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.Login {
+  display: flex;
 }
 
+.Login p {
+  margin: 0 15px;
+}
+
+button {
+  padding: 5px 20px;
+}
+
+button.logout {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 50px;
+}
 #route-container {
   background-color: #282c34;
   min-height: 100vh;
@@ -14,15 +26,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(8px + 2vmin);
   color: white;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

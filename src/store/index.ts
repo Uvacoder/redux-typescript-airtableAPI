@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, DeepPartial } from 'redux'
-import session, { State as SessionState } from './session/reducers'
+import session, { State as SessionState } from './reducers'
 import thunk from 'redux-thunk'
 
 export interface RootState {

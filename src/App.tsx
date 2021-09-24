@@ -16,7 +16,6 @@ class App extends Component {
       <Provider store={store}>
         <div className="App">
           <div id="route-container">
-            <img src={logo} className="App-logo" alt="logo" />
             <Login></Login>
           </div>
         </div>
