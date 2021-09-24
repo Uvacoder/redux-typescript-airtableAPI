@@ -36,7 +36,7 @@ export const login = (student_name: string): ThunkAction<Promise<void>, {}, {}, 
         dispatch(getClassesData(res))
         dispatch(isFetching(false))
         resolve()
-      })
+      }) 
     })
   }
 }
